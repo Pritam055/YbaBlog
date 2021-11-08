@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load f1 %}
+{% load addproperty %}
+
+{% block title %}
+    Blog Login      
+{% endblock %}
+
+{% block content  %} 
+        <p style="font-family: 'Brush Script MT', cursive; font-size:35px;">Login Page</p>
+        <hr>
+        {% if messages %}
+            {% for message in messages %}
+                <p class="errors">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="errors">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+        <form action="{% url 'account:login' %}" method="POST">
+            {% csrf_token %}
+
+             <label for="id_username" class="form-label">Username:</label>
+            {{form.username.errors}}
+            {{ form.username|addclass:"form-control" }}
+
+            <label for="id_password" class="form-label">Password:</label>
+            {{form.password.errors}} 
+            {{ form.password|addclass:"form-control" }}  
+            
+            <input type="submit" value="Login" class="btn btn-success mt-2 form-control">
+        </form> 
+        <p class="mt-3">Does not have an account? <a href="{% url 'account:signup' %}">Sign-up here</ah></p>
+{% endblock %}

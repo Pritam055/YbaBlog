@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load f1 %}
+
+{% block title %}
+    Account udpate profile      
+{% endblock %}
+
+{% block content  %} 
+         <p style="font-family: 'Brush Script MT', cursive; font-size:35px;">Update Profile Page</p>
+        <hr>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:red;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <form action="" method="POST" novalidate enctype="Multipart/form-data">
+            {% csrf_token %}
+            {% for field in update_form %}
+                {{ field.label_tag }} {{ field }} <span class="errors">{{ field.errors|striptags }}</span><br><br>
+            {% endfor %}
+            <input type="submit" value="Update" class="btn btn-success active"> 
+            <a href="{% url 'account:profile' %}" class="btn btn-warning">Cancel</a>
+        </form> 
+{% endblock %}

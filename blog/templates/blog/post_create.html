@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load f1 %}
+
+{% block title %}
+    Blog post create
+{% endblock %}
+
+{% block content  %} 
+         <p style="font-family: 'Brush Script MT', cursive; font-size:35px;">Create Post</p>
+        <hr>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:red;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <form action="" method="POST" novalidate enctype="Multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Create Post" class="btn btn-success"> 
+            <a href="../" class="btn btn-warning">Cancel</a>
+        </form> 
+{% endblock %}

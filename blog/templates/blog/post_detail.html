@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load f1 %}
+
+{% block title %}
+    Blog post detail
+{% endblock %}
+
+{% block content  %}
+
+        <div class="row" >
+        <a href="{% url 'blog:home' %}" class="btn btn-secondary" style="width: 15%;">Back</a>
+        {% if messages %}
+            <div class="mt-2">
+                {% for message in messages %}
+                    <p style="color:green;">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %} 
+            <p style="font-size:28px;" class="mt-2">{{ post.title }}</p>
+            <p><span class="text-muted">by </span> <b>{{ post.author.username }}</b> <span class="text-muted">on {{ post.date_time }} </span></p> 
+            <p>{{ post.content|linebreaks }}</p> 
+            {% if post.image %}
+                <p><img src="{{ post.image.url }}" height="330px" width="480px"></p>
+            {% endif %} 
+            <hr> 
+
+            <div>
+                {% if request.user.is_authenticated %}
+                    <form method="POST" action="{% url 'blog:vote-count' slug=post.slug %}" class="py-2 mx-2" style="display:inline ">
+                        {% csrf_token %}
+                        <input type="submit" value="Vote" class="btn btn-secondary"><span style="font-family: 'Brush Script MT', cursive;">: {{ post.vote_count }}</span> 
+                    </form>
+                    <p style="display:inline; border: 2px solid black;border-radius: 5px"  class="py-2 px-1 mx-2" >Comments<span style="font-family: 'Brush Script MT', cursive;">: {{ post.comments.all|length }}</span></p>
+                    {% if user_with_post %}
+                        <a href="{% url  'blog:post-update' slug=post.slug %}" class="btn btn-primary active">Update</a>
+                        <a href="{% url  'blog:post-delete' slug=post.slug %}" class="btn btn-danger active">Delete</a>
+                        <hr>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <h3>Comments</h3>
+            {% if request.user.is_authenticated %}
+                <form method="POST" action="{% url 'blog:comment' slug=post.slug %}">
+                    {% csrf_token %}
+                {{ comment_form.content }} {{ comment_form.content.errors|striptags }}
+                    <input type="submit" value="Comment" class="btn btn-success mt-2 mb-3">
+                </form>
+            {% endif %}
+            {% if comments %} 
+                    {% for comment in comments %}
+                        <p><b>{{ comment.author.username }}</b> on<span class="text-muted"> {{ comment.date_time }}</span> <br>{{ comment.content }}</p>
+                    {% endfor %} 
+            {% else %}
+                <p>No comments yet!</p>
+            {% endif %} 
+            </div>
+{% endblock %}

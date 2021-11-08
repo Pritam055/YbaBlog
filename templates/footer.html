@@ -1,0 +1,33 @@
+{% comment %}   
+
+        <footer class="container-fluid footer mt-auto py-3 bg-light text-center text-muted">
+    <p class="col-md-4 mb-0 text-muted">&copy; 2021 YbaBlog, Inc</p>
+    </a> 
+    <ul class="nav col-md-4 justify-content-end"> 
+      <li class="nav-item"><a href="https://www.linkedin.com/" target="_blank" class="nav-link px-2 text-muted">Linkedin</a></li> 
+      <li class="nav-item"><a href="https://www.facebook.com/" target="_blank" class="nav-link px-2 text-muted">Facebook</a></li>
+      <li class="nav-item"><a href="https://www.instagram.com/" target="_blank" class="nav-link px-2 text-muted">Instagram</a></li>
+    </ul>
+  </footer>  {% endcomment %}
+
+  <footer class="container-fluid fixed-bottom mt-3">
+    <div class="row text-center">
+      <div class="col-md-4">
+
+      </div>
+
+      <div class="col-md-4" >
+        <p class="text-light copy" id="copyright"></p>
+      </div>
+
+      <div class="col-md-4">
+        
+      </div>
+    </div>
+  </footer>
+
+  <script type="text/javascript">
+    var year = new Date().getFullYear();
+    var date = `&copy; YbaBlog ${year}. All Rights Reserved.`;
+    document.getElementById('copyright').innerHTML = date; 
+  </script> 

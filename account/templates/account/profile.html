@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load f1 %}
+
+{% block title %}
+    Account profile page      
+{% endblock %}
+
+{% block content  %} 
+<div class="row mb-3">
+        <p style="font-family: 'Brush Script MT', cursive; font-size:35px;">Profile Page</p>
+        <hr>
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color:green;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <div class="row">
+            <div class="col-lg-5 border">
+                <img  class="rounded-circle mt-5" src="{% if request.user.profile.image %} {{request.user.profile.image.url}} {% else %}{% static 'default.png'  %}{% endif %}" height="250px" width="250px" >
+               
+            </div>
+            <div class="col-lg-7 border">
+                <p>Username: <b>{{ request.user.username }}</p>
+                <p><a href="{% url 'account:profile-update' %}" class="btn btn-secondary">Update Profile</a></p>
+                <p><a href="{% url 'account:password-change' %}" class="btn btn-secondary">Change Password</a></p>
+            </div>
+        </div>
+
+        <div class="my-3" style="font-weight:normal">
+            {% if posts %}
+                <p style="font-family: 'Brush Script MT', cursive; font-size:30px;">My Posts</p>
+                <hr>
+                {% for post in posts %}
+                    <div>
+                        {% comment %} <h3><a href="{% url 'post-detail' slug=post.slug %}">{{ post.title }}</a></h3> {% endcomment %}
+                        <p style="font-size:18px;"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                        <span class="text-muted" style="font-size:14px">by</span> {{ post.author.username }} <span class="text-muted" style="font-size:14px"> on {{post.date_time}} </span></p>
+                        <p>{{ post.content|content_cut:20 }}...</p>
+                    </div>
+                {% endfor %} 
+            {% else %}
+                <p class="text-center mt-5">"No posts yet!"</p>
+            {% endif %}
+        </div>
+</div>
+         
+{% endblock %}

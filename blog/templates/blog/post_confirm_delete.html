@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load f1 %}
+
+{% block title %}
+    Blog post delete
+{% endblock %}
+
+{% block content  %}
+        <div class="row">
+             <p style="font-family: 'Brush Script MT', cursive; font-size:35px;">Post Delete</p>
+            <hr>
+            <form method="post">
+                {% csrf_token %}
+                 <p style="  font-size:22px;">Do you want to delete the post "{{ object.title }}" ?</p>
+                <input type="submit" value="Delete" class="btn btn-success" />
+                <a href="{% url 'blog:post-detail' slug=object.slug %}" class="btn btn-warning">Cancel</a> 
+            </form>   
+        </div>
+{% endblock %}

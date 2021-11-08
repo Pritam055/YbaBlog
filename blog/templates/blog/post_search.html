@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load f1 %}
+
+{% block title %}
+    Blog post search
+{% endblock %}
+
+{% block content  %}
+     
+    <div class="row" >
+            
+         {% if messages %}
+         <div class="my-2">
+            {% for message in messages %}
+                <p style="color:green">{{message}}</p>
+            {% endfor %}
+        </div>
+         {% endif %}
+        {% if page_obj %}
+            {% for post in page_obj %}
+                <div class="row mb-2">
+                    <div class="col-lg-3">
+                        <a  href="{{ post.get_absolute_url }}" class="btn btn-secondary btn-sm" >Votes: {{ post.vote_count }}</a> <a  href="{{ post.get_absolute_url }}" class="btn btn-secondary btn-sm">Comments: {{ post.comments.all|length }}</a>
+                    </div>
+                    <div class="col-lg-9">
+                        {% comment %} <h3><a href="{% url 'post-detail' slug=post.slug %}">{{ post.title }}</a></h3> {% endcomment %}
+                        <p style="display:inline; font-size:18px;" ><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> <span class="text-muted" style="font-size:14px"> by</span> {{ post.author.username }} <span class="text-muted" style="font-size:14px"> on {{ post.date_time }} </span></p>
+                       {% comment %}  <p>{{ post.content|content_cut:20 }}...</p> {% endcomment %}
+                    </div>
+                </div>
+                <hr>
+            {% endfor %} 
+            <div>
+                <span>
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'blog:post-search' %}?keyword={{ search_text }}&page={{ page_obj.previous_page_number }}" class="pagination-link btn btn-sm">Previous</a>
+                    {% endif %}
+
+                    <span class="current-page">{{ page_obj.number }}</span>
+                    
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'blog:post-search' %}?keyword={{ search_text }}&page={{ page_obj.next_page_number }}" class="btn btn-sm pagination-link">Next</a>
+                    {% endif %}
+                </span>
+            </div>
+        {% else %}
+            <p>No posts yet!</p>
+        {% endif %}
+    </div>
+{% endblock %}
